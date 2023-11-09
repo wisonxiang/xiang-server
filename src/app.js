@@ -3,8 +3,13 @@ import koaBody from 'koa-body'
 import { initCore } from './core/init'
 import path from 'path'
 import koaStatic from 'koa-static'
+import catchError from './middlewares/catchError'
+import routerResponse from './middlewares/routerResponse'
 
 const app = new Koa()
+app.use(catchError)
+app.use(routerResponse())
+
 // 静态资源
 app.use(koaStatic(path.resolve("./static"), { extensions: ["html"] }))
 
