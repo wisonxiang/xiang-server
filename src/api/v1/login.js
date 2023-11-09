@@ -2,18 +2,28 @@ import router from "./init.js";
 import sql from '@utils/db.js'
 import { validateLogin, validateRegster } from '@utils/validations.js'
 
-router.post('/login', (ctx) => {
+router.post('/login', async (ctx) => {
   const params = ctx.request.body
   const { username, realPasswd } = validateLogin(params)
-  console.log('realPasswd', realPasswd);
-  ctx.success('登录成功')
+  const res = await sql.query('select uid,username,password,email from user where username = ?', [username]);
+  if(res[0].length){
+    const user = res[0][0]
+    if(user.password === realPasswd){
+      const obj = {username:user.username,uid:user.uid,email:user.email}
+      ctx.success('登录成功',0,obj)
+    }else{
+      ctx.fail('密码错误')
+    }
+  }else{
+    ctx.fail('用户不存在')
+  }
 })
 
 router.post('/register', async (ctx) => {
   const params = ctx.request.body
   const { username, realPasswd, email } = validateRegster(params)
   try {
-    const user = await sql.query('select * from user where username = ?;', [username])
+    const user = await sql.query('select count(*) from user where username = ?;', [username])
     if (user[0].length) {
       ctx.fail('用户名已存在')
     } else {

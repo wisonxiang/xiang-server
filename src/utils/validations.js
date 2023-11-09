@@ -28,7 +28,8 @@ export function validateLogin(params) {
 export function validateRegster(params) {
   const { username, realPasswd } = validateLogin(params)
   const { email } = params
-  if (validator.isEmail(email)) {
+  console.log('email',email);
+  if (!validator.isEmail(email)) {
     return responseError('邮箱不合法')
   }
   return { username, realPasswd, email }
