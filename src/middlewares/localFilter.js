@@ -8,12 +8,17 @@ export default async function localFilter(ctx,next) {
     if (allowpage.indexOf(url) > -1) {
       await next()
     }else {
-      loh
         const token = ctx.header.authorization
         if(!token){
           throw new HttpException('登录验证失败',403)
         }
-        jwtVerify(token)
+        try {
+          const tokenObj =  jwtVerify(token)
+          console.log('tokenObj',tokenObj);
+        } catch (error) {
+          console.log('err',error);
+          throw new HttpException('登录验证失败',403)
+        }
         await next()
     }
 }

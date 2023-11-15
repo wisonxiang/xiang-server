@@ -7,6 +7,8 @@ function initSocket(httpServer){
     }
   })
 
+  // const socketStore = new Map({})
+
   socketServer.on('connection', (socket) => {
     // console.log('socket', socket);
     console.log('connection');

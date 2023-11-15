@@ -3,7 +3,7 @@ import { HttpException } from '@utils/exceptions.js'
 
 const secret = "Xiang@#$"
 export function jwtSign(obj){
-  return jwt.sign(obj, secret,{ expiresIn: '12h' });
+  return jwt.sign(obj, secret,{ expiresIn: '1h' });
 }
 
 export function jwtVerify(token){

@@ -6,12 +6,11 @@ import { jwtSign } from "@utils/jwt.js";
 router.post('/login', async (ctx) => {
   const params = ctx.request.body
   const { username, realPasswd } = validateLogin(params)
-  const res = await sql.query('select uid,username,password,email from user where username = ?', [username]);
+  const res = await sql.query('select uid from user where username = ?', [username]);
   if (res[0].length) {
     const user = res[0][0]
     if (user.password === realPasswd) {
-      const obj = { username: user.username, uid: user.uid, email: user.email }
-      const token = jwtSign(obj)
+      const token = jwtSign({uid: user.uid})
       ctx.success('登录成功', 0, token)
     } else {
       ctx.fail('密码错误')
@@ -30,10 +29,9 @@ router.post('/register', async (ctx) => {
       ctx.fail('用户名已存在')
     } else {
       await sql.query('insert into user (username,password,email) values (?,?,?);', [username, realPasswd, email])
-      const user = await sql.query('select uid from user where username = ?;', [username])
-      const uid = user[0][0].uid
-      const obj = { username, email, uid }
-      const token = jwtSign(obj)
+      const res = await sql.query('select uid from user where username = ?;', [username])
+      const user = res[0][0]
+      const token = jwtSign({uid: user.uid})
       ctx.success('注册成功', 0, token)
     }
   } catch (error) {
