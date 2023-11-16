@@ -1,25 +1,25 @@
-// [{roomId:'xx',userList:[{uid:'xx',sId:'yy'}]}]
-const socketStore = []
+const socketMap = new Map()
 
 
-export function addSocketUser(userInfo,socketid){
-  const room = socketStore.find(item => (item.roomId === userInfo.roomId))
-  if (room) {
-    const user = room.userList.find(node => node.uid === userInfo.userId)
-    if (user) {
-      user.sid = socketid
-    } else {
-      room.userList.push({ uid: userInfo.userId, sid: socketid })
-    }
-  }else{
-    socketStore.push({roomId:userInfo.roomId,userList:[{ uid: userInfo.userId, sid: socketid }]})
+export function addSocketUser(userInfo, socketid) {
+  const room = socketMap.get(userInfo.roomId)
+  if (!room) {
+    socketMap.set(userInfo.roomId, new Map([[userInfo.userId, socketid]]))
+  } else {
+    room.set(userInfo.userId, socketid)
   }
 }
 
-export function findSocketId(roomId,uid){
-  const room = socketStore.find(item=>item.roomId === roomId)
+export function findSocketId(roomId,userId) {
+  const room = socketMap.get(roomId)
   if(!room) return false
-  const user = room.userList.find(node=>node.uid === uid)
+  const user = room.get(userId)
   if(!user) return false
-  return user.sid
+  return user
+}
+
+export function delSocketUser(userInfo) {
+  const room = socketMap.get(userInfo.roomId)
+  if(!room) return false
+  room.delete(userInfo.userId)
 }

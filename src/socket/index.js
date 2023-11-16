@@ -1,5 +1,5 @@
 import { Server } from 'socket.io'
-import { addSocketUser } from '@utils/useSocketStore.js'
+import { addSocketUser,delSocketUser } from '@utils/useSocketStore.js'
 
 
 function initSocket(httpServer) {
@@ -33,6 +33,7 @@ function initSocket(httpServer) {
 
     socket.on('disconnect', () => {
       socket.to(userInfo.roomId).emit('changeRoomSize', myRoom.size)
+      delSocketUser(userInfo)
     })
   })
   global.socketServer = socketServer
