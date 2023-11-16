@@ -6,7 +6,7 @@ import { jwtSign } from "@utils/jwt.js";
 router.post('/login', async (ctx) => {
   const params = ctx.request.body
   const { username, realPasswd } = validateLogin(params)
-  const res = await sql.query('select uid from user where username = ?', [username]);
+  const res = await sql.query('select uid,password from user where username = ?', [username]);
   if (res[0].length) {
     const user = res[0][0]
     if (user.password === realPasswd) {
