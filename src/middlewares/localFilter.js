@@ -1,10 +1,10 @@
 import { HttpException } from '@utils/exceptions.js'
 import { jwtVerify } from '@utils/jwt'
 //定义允许直接访问的url
-const allowPages = ['/api/v1/login','/api/v1/register']
+const allowPages = ['/api/v1/login','/api/v1/register','/api/v1/change']
 //拦截
 export default async function localFilter(ctx,next) {
-    let url = ctx.originalUrl
+    let url = ctx.originalUrl.split('?')[0]
     if (allowPages.indexOf(url) > -1) {
       await next()
     }else {
