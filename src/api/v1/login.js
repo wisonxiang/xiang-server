@@ -1,6 +1,6 @@
 import router from "./init.js";
 import sql from '@utils/db.js'
-import { validateLogin, validateRegster } from '@utils/validations.js'
+import { validateLogin, validateRegster } from '@valid/loginValid.js'
 import { jwtSign } from "@utils/jwt.js";
 
 router.post('/login', async (ctx) => {
@@ -10,7 +10,7 @@ router.post('/login', async (ctx) => {
   if (res[0].length) {
     const user = res[0][0]
     if (user.password === realPasswd) {
-      const token = jwtSign({uid: user.uid})
+      const token = jwtSign({ uid: user.uid })
       ctx.success('登录成功', 0, token)
     } else {
       ctx.fail('密码错误')
@@ -31,7 +31,7 @@ router.post('/register', async (ctx) => {
       await sql.query('insert into user (username,password,email) values (?,?,?);', [username, realPasswd, email])
       const res = await sql.query('select uid from user where username = ?;', [username])
       const user = res[0][0]
-      const token = jwtSign({uid: user.uid})
+      const token = jwtSign({ uid: user.uid })
       ctx.success('注册成功', 0, token)
     }
   } catch (error) {

@@ -2,7 +2,7 @@ import { HttpException } from '@utils/exceptions.js'
 import { jwtVerify } from '@utils/jwt'
 import { infoLog } from '@utils/log.js'
 //定义允许直接访问的url
-const allowPages = ['/api/v1/login', '/api/v1/register', '/api/v1/change']
+const allowPages = ['/api/v1/login', '/api/v1/register', '/api/v1/change', '/api/v1/emitMsg']
 //拦截
 export default async function localFilter(ctx, next) {
   let url = ctx.originalUrl.split('?')[0]
@@ -18,7 +18,7 @@ export default async function localFilter(ctx, next) {
       ctx.uid = jwtObj.uid
       await next()
     } catch (error) {
-      infoLog.log('token校验失败',error)
+      infoLog.log('token校验失败', error)
       throw new HttpException('token校验失败', 403)
     }
   }

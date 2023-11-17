@@ -32,6 +32,7 @@
     "pm2": "^5.3.0"
   },
   "_moduleAliases": {
-    "@utils": "src/utils"
+    "@utils": "src/utils",
+    "@valid": "src/validations"
   }
 }
