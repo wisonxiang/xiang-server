@@ -1,0 +1,22 @@
+[2023-11-17T09:54:45.909] [ERROR] pro - Error: 123
+    at /Users/wison/Documents/Study/Web/server/koa2/src/api/v1/change.js:5:9
+    at dispatch (/Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-compose/index.js:42:32)
+    at /Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-compose/index.js:42:32)
+    at /Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-compose/index.js:34:12
+    at dispatch (/Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-compose/index.js:42:32)
+    at /Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-body/src/index.ts:120:12
+    at dispatch (/Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-compose/index.js:42:32)
+    at serve (/Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-static/index.js:53:15)
+[2023-11-17T09:56:15.486] [ERROR] pro - 全局异常 Error: 123
+    at /Users/wison/Documents/Study/Web/server/koa2/src/api/v1/change.js:5:9
+    at dispatch (/Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-compose/index.js:42:32)
+    at /Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-compose/index.js:42:32)
+    at /Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-compose/index.js:34:12
+    at dispatch (/Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-compose/index.js:42:32)
+    at /Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-body/src/index.ts:120:12
+    at dispatch (/Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-compose/index.js:42:32)
+    at serve (/Users/wison/Documents/Study/Web/server/koa2/node_modules/koa-static/index.js:53:15)
