@@ -5,11 +5,11 @@ const requireDirectory = require('require-directory')
 
 const apiDirectory = `${process.cwd()}/src/api` // 拼接绝对路径
 
-function initCore(app){
+function initCore(app) {
   function whenLoadModule(obj) {
-    const router = obj.default 
+    const router = obj.default
     if (router instanceof Router && router.stack.length) {
-        app.use(obj.default.routes())
+      app.use(obj.default.routes())
     }
   }
   requireDirectory(module, apiDirectory, {
