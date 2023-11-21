@@ -1,11 +1,11 @@
 import { Server } from 'socket.io'
-import { addSocketUser,delSocketUser } from '@utils/useSocketStore.js'
+import { addSocketUser, delSocketUser } from '@utils/useSocketStore.js'
 
 
 function initSocket(httpServer) {
   const socketServer = new Server(httpServer, {
     path: '/socket', cors: {
-      origin: "http://localhost:51063"
+      origin: "http://localhost:5173"
     }
   })
 
@@ -16,24 +16,38 @@ function initSocket(httpServer) {
     let myRoom = null
     socket.on('join', (obj, callback) => {
       userInfo = obj
+      console.log('ii', userInfo);
       socket.join(userInfo.roomId)
       addSocketUser(userInfo, socket.id)
       myRoom = socketServer.sockets.adapter.rooms.get(userInfo.roomId)
       const roomSize = myRoom.size
+      socket.to(userInfo.roomId).emit('roomSize', roomSize)
       callback(roomSize)
-      socket.to(userInfo.roomId).emit('changeRoomSize', roomSize)
+    })
+
+    socket.on('leave', (obj, callback) => {
+      if (userInfo && userInfo.roomId) {
+        socket.leave(userInfo.roomId)
+        delSocketUser(userInfo, socket.id)
+        myRoom = socketServer.sockets.adapter.rooms.get(userInfo.roomId)
+        const roomSize = myRoom.size
+        socket.to(userInfo.roomId).emit('roomSize', roomSize)
+        callback(roomSize)
+      }
     })
 
     socket.on('sendMsg', (msg, callback) => {
       const time = +new Date() + ''
       const msgObj = { ...userInfo, msg, time }
-      callback(msgObj)
       socket.to(userInfo.roomId).emit('sendMsg', msgObj)
+      callback(msgObj)
     })
 
     socket.on('disconnect', () => {
-      socket.to(userInfo.roomId).emit('changeRoomSize', myRoom.size)
-      delSocketUser(userInfo)
+      if (userInfo && userInfo.roomId) {
+        socket.to(userInfo.roomId).emit('roomSize', myRoom.size)
+        delSocketUser(userInfo)
+      }
     })
   })
   global.socketServer = socketServer
