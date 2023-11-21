@@ -16,7 +16,6 @@ function initSocket(httpServer) {
     let myRoom = null
     socket.on('join', (obj, callback) => {
       userInfo = obj
-      console.log('ii', userInfo);
       socket.join(userInfo.roomId)
       addSocketUser(userInfo, socket.id)
       myRoom = socketServer.sockets.adapter.rooms.get(userInfo.roomId)

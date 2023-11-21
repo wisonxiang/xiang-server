@@ -10,16 +10,16 @@ export function addSocketUser(userInfo, socketid) {
   }
 }
 
-export function findSocketId(roomId,userId) {
+export function findSocketId(roomId, userId) {
   const room = socketMap.get(roomId)
-  if(!room) return false
+  if (!room) return false
   const user = room.get(userId)
-  if(!user) return false
+  if (!user) return false
   return user
 }
 
 export function delSocketUser(userInfo) {
   const room = socketMap.get(userInfo.roomId)
-  if(!room) return false
+  if (!room) return false
   room.delete(userInfo.userId)
 }

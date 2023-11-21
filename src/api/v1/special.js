@@ -9,7 +9,7 @@ router.get('/change', (ctx) => {
   const num = query.num
   const socketId = findSocketId(roomId, userId)
   if (socketId) {
-    global.socketServer.to(socketId).emit('changeRoomSize', num)
+    global.socketServer.to(socketId).emit('roomSize', num)
     // global.socketServer.to(roomId).emit('changeRoomSize',num)  发送消息给某个房间
     // global.socketServer.emit('changeRoomSize',num)  发送消息给全局
     ctx.success('修改成功')
