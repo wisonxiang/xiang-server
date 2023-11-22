@@ -38,6 +38,8 @@ function initSocket(httpServer) {
     socket.on('sendMsg', (msg, callback) => {
       const time = +new Date() + ''
       const msgObj = { ...userInfo, msg, time }
+      console.log('msg', msg);
+      console.log('userInfo.roomId', userInfo.roomId);
       socket.to(userInfo.roomId).emit('sendMsg', msgObj)
       callback(msgObj)
     })
