@@ -1,7 +1,5 @@
 import Koa from 'koa'
 import koaBody from 'koa-body'
-import path from 'path'
-import koaStatic from 'koa-static'
 import { initCore } from './core/init'
 import catchError from './middlewares/catchError'
 import routerResponse from './middlewares/routerResponse'
@@ -13,13 +11,9 @@ app.use(catchError)
 app.use(routerResponse())
 app.use(localFilter)
 
-
-// 静态资源
-app.use(koaStatic(path.resolve("./static"), { extensions: ["html"] }))
-
 // api路由 socket服务
 app.use(koaBody())
 const httpServer = initCore(app)
 
 // 是httpServer不是app
-httpServer.listen(3000, () => { })
+httpServer.listen(3200, () => { console.log('服务启动成功'); })

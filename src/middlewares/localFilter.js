@@ -1,8 +1,8 @@
-import { HttpException } from '@utils/exceptions.js'
-import { jwtVerify } from '@utils/jwt'
-import { proLog } from '@utils/log.js'
+import { HttpException } from '@/utils/exceptions.js'
+import { jwtVerify } from '@/utils/jwt'
+import { proLog } from '@/utils/log.js'
 //定义允许直接访问的url
-const allowPages = ['/', '/api/v1/login', '/api/v1/register', '/api/v1/change', '/api/v1/emitMsg']
+const allowPages = ['/', '/api/v1/login', '/api/v1/register', '/api/v1/gpt', '/api/v2/song']
 //拦截
 export default async function localFilter(ctx, next) {
   let url = ctx.originalUrl.split('?')[0]

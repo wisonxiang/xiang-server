@@ -1,6 +1,6 @@
 import validator from 'validator';
-import { HttpException } from '@utils/exceptions.js'
-import { decrypt, encrypt } from "@utils/crypto.js";
+import { HttpException } from '@/utils/exceptions.js'
+import { decrypt, encrypt } from "@/utils/crypto.js";
 
 function responseError(msg, code) {
   throw new HttpException(msg, code)

@@ -1,7 +1,7 @@
 import router from "./init.js";
-import sql from '@utils/db.js'
-import { validateLogin, validateRegster } from '@valid/loginValid.js'
-import { jwtSign } from "@utils/jwt.js";
+import sql from '@/utils/db.js'
+import { validateLogin, validateRegster } from '@/validations/loginValid.js'
+import { jwtSign } from "@/utils/jwt.js";
 
 router.post('/login', async (ctx) => {
   const params = ctx.request.body
@@ -35,7 +35,6 @@ router.post('/register', async (ctx) => {
       ctx.success('注册成功', 0, token)
     }
   } catch (error) {
-    console.log('e', error);
     ctx.fail('数据库异常')
   }
 })

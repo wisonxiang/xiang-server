@@ -1,5 +1,5 @@
 import router from "./init.js";
-import sql from '@utils/db.js'
+import sql from '@/utils/db.js'
 
 router.get('/userinfo', async (ctx) => {
   try {

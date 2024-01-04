@@ -1,16 +1,16 @@
 import jwt from 'jsonwebtoken';
-import { HttpException } from '@utils/exceptions.js'
+import { HttpException } from '@/utils/exceptions.js'
 
 const secret = "Xiang@#$"
-export function jwtSign(obj){
-  return jwt.sign(obj, secret,{ expiresIn: '1h' });
+export function jwtSign(obj) {
+  return jwt.sign(obj, secret, { expiresIn: '1h' });
 }
 
-export function jwtVerify(token){
+export function jwtVerify(token) {
   try {
     return jwt.verify(token, secret);
-  } catch(err) {
+  } catch (err) {
     // err
     throw new HttpException('token已过期')
-  }  
+  }
 }
