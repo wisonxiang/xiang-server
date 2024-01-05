@@ -1,5 +1,6 @@
 import router from "./init.js";
 import OpenAI from 'openai';
+import { PassThrough } from 'stream'
 
 const openai = new OpenAI({
   baseURL: 'https://api.chatanywhere.com.cn',
@@ -7,18 +8,28 @@ const openai = new OpenAI({
 });
 
 router.post('/gpt', async (ctx) => {
+  const ss = new PassThrough();
+  ctx.set({
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    "Connection": "keep-alive",
+  });
+  ctx.body = ss;
   const params = ctx.request.body
-  const { content } = params
-  if (!content) return ctx.fail('请输入内容')
-  const stream = await openai.chat.completions.create({
-    messages: [{ role: 'user', content }],
+  const { contents } = params
+
+  const stream = await openai.beta.chat.completions.stream({
+    messages: contents,
     model: 'gpt-3.5-turbo',
     stream: true,
+  });
+
+  stream.on('content', (delta, snapshot) => {
+    ss.push(delta)
+  });
+  stream.on('end', () => {
+    ss.end()
   })
-  if (!stream) return ctx.fail('gpt服务错误')
-  // for await (const chunk of stream) {
-  //   process.stdout.write(chunk.choices[0]?.delta?.content || '');
-  //   // console.log('11', chunk.choices[0]?.delta?.content);
-  // }
-  return stream
 })
+
+export default router
