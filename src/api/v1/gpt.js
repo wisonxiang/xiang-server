@@ -18,17 +18,23 @@ router.post('/gpt', async (ctx) => {
   const params = ctx.request.body
   const { contents } = params
 
-  const stream = await openai.beta.chat.completions.stream({
+  let stream = await openai.beta.chat.completions.stream({
     messages: contents,
     model: 'gpt-3.5-turbo',
     stream: true,
   });
-
-  stream.on('content', (delta, snapshot) => {
+  const hanleDelta = (delta, snapshot) => {
     ss.push(delta)
-  });
-  stream.on('end', () => {
+  }
+  const hanleEnd = () => {
     ss.end()
+  }
+  stream.on('content', hanleDelta)
+  stream.on('end', hanleEnd)
+
+  ss.on('close', () => {
+    stream.off('content', hanleDelta)
+    stream.off('end', hanleEnd)
   })
 })
 
