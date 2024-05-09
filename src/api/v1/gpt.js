@@ -24,7 +24,7 @@ router.post('/gpt', async (ctx) => {
     stream: true,
   });
   const hanleDelta = (delta, snapshot) => {
-    ss.push(delta)
+    ss.push(`event: char\ndata: ${delta}\n\n`)
   }
   const hanleEnd = () => {
     ss.end()
